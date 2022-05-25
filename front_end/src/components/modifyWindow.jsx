@@ -5,6 +5,7 @@ export default function ModifyWindow({
   setModified,
   liste_movies,
   set_list_movies,
+  contract
 }) {
   return (
     <div>
@@ -17,6 +18,7 @@ export default function ModifyWindow({
         modified={true}
         index={index}
         setModified={setModified}
+        contract={contract}
       />
     </div>
   );

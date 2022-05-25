@@ -7,22 +7,34 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract MainContract is Ownable {
     string[] public liste_de_taches;
 
-    function get_liste_de_taches() public view onlyOwner returns (string[] memory) {
+    function get_liste_de_taches()
+        public
+        view
+        onlyOwner
+        returns (string[] memory)
+    {
         return liste_de_taches;
     }
 
-    function add_liste_de_tache(string memory _tache)onlyOwner public {
+    function add_liste_de_tache(string memory _tache) public onlyOwner {
         liste_de_taches.push(_tache);
     }
 
-   function delete_liste_de_tache(uint256 _index) public {
-        if(_index==liste_de_taches.length){
+    function delete_liste_de_tache(uint256 _index) public {
+        if (_index == liste_de_taches.length) {
             liste_de_taches.pop();
-        }else{
-        for(uint256 i=_index; i<(liste_de_taches.length)-1;i++){
-            liste_de_taches[i]=liste_de_taches[i+1];
+        } else {
+            for (uint256 i = _index; i < (liste_de_taches.length) - 1; i++) {
+                liste_de_taches[i] = liste_de_taches[i + 1];
+            }
+            liste_de_taches.pop();
         }
-        liste_de_taches.pop();
-        }
+    }
+
+    function modify_liste_taches(string memory _name, uint256 id)
+        public
+        onlyOwner
+    {
+        liste_de_taches[id] = _name;
     }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ethers } from "ethers";
 
 export default function Input({
   set_list_movies,
@@ -6,34 +7,41 @@ export default function Input({
   modified,
   index,
   setModified,
+  contract,
 }) {
   const [text, setText] = useState("");
   const handleChange = (e) => {
     setText(e.target.value);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     if (modified !== true) {
       if (text.replace(/\s/g, "").length === 0) {
         e.preventDefault();
+        setText("");
         return null;
       }
       e.preventDefault();
-      const new_tab = [text, ...liste_movies];
+      const tx_add = await contract.add_liste_de_tache(text);
+      await tx_add.wait();
+      const new_tab = await contract.get_liste_de_taches();
       set_list_movies(new_tab);
       setText("");
     } else {
       if (text.replace(/\s/g, "").length === 0) {
         e.preventDefault();
+        setModified(false);
         return null;
       }
       e.preventDefault();
-      const new_tab = [...liste_movies];
-      new_tab[index] = text;
+      const tx_add = await contract.modify_liste_taches(text, index);
+      await tx_add.wait();
+      const new_tab = await contract.get_liste_de_taches();
       set_list_movies(new_tab);
-      setModified(false);
       setText("");
+      setModified(false);
     }
   };
+  console.log(index);
   return (
     <div>
       <form onSubmit={handleSubmit}>

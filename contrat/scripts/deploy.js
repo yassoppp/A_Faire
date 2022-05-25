@@ -18,16 +18,15 @@ async function main() {
 
   const Main_contract = await hre.ethers.getContractFactory(
     "MainContract",
-    other
+    signer
   );
   const main_contract = await Main_contract.deploy();
 
   await main_contract.deployed();
 
-  console.log("Greeter deployed to:", main_contract);
+  console.log("Greeter deployed to:", main_contract.address);
 
-  const contract = await main_contract.add_liste_de_tache("a",signer);
-  console.log(contract);
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
